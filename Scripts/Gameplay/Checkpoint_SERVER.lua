@@ -19,7 +19,7 @@ function addStageNumberToStages(playerStages)
 	--Best Time
 	local bestTime = Instance.new('IntValue', newStage)
 	bestTime.Name = 'Best Time'
-	bestTime.Value = 999999
+	bestTime.Value = 2147483647
 end
 
 
