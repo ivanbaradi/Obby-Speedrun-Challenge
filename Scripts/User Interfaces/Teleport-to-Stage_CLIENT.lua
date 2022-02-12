@@ -22,9 +22,9 @@ end)
 --Teleports player to stage 
 button.MouseButton1Click:Connect(function()
 	
-	--Players cannot teleport to another stage while performing an obby
-	if player['Is Performing Obby'].Value then
-		print(player.Name.." can't teleport to anther stage because it's performing an obby")
+	--Cannot teleport because the player is dead
+	if player.Character:FindFirstChild('Humanoid').Health == 0 then
+		print('Unable to teleport '..player.Name..' because it died.')
 		return
 	end
 	
