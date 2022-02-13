@@ -17,7 +17,8 @@ ReplicatedStorage:FindFirstChild('Record Best Time').OnServerInvoke = function(p
 	--Gets the player's previous stage number from player stages
 	local prevStage = playerStages[tostring(player['Current Stage'].Value-1)]
 	
-	if timer < prevStage['Best Time'].Value then
+	--The worst time is 2,147,483,647 since it's the max int value
+	if timer == 2147483647 or timer < prevStage['Best Time'].Value then
 		prevStage['Best Time'].Value = timer
 		print(player.Name.."'s new best time ("..timer.." secs) on Stage "..prevStage.Name)
 		return true, prevStage.Name

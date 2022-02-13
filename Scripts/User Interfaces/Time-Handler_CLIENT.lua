@@ -20,30 +20,6 @@ function recordBestTimeOnStageUI(timer_text, prevStage)
 	stageNumUI['Best Time'].Text = timer_text.Text
 end
 
-
---[[Converts the time froms seconds to minutes and seconds
-	ex) 250s => 3m 10s
-	
-	Param(s):
-	timer => time in secs
-
-	Return(s):
-	converted time => time in mins and secs
-]]
-function convertSecsToMinSecs(timer)
-	
-	--Minutes
-	local minutes = math.floor(timer/60)
-	--Seconds from 0 to 59
-	local seconds = timer % 60
-	
-	if seconds >= 0 and seconds < 10 then
-		return minutes..':0'..seconds
-	end
-	
-	return minutes..':'..seconds
-end
-
 --[[Displays time on the player's UI
 
 	Param(s):
@@ -55,7 +31,7 @@ function displayTime(timer)
 	elseif timer >= 10 and timer < 60 then
 		timer_text.Text = '0:'..timer
 	else
-		timer_text.Text = convertSecsToMinSecs(timer)
+		timer_text.Text = ReplicatedStorage:FindFirstChild('Convert Secs to Mins & Secs'):InvokeServer(timer)
 	end
 end
 
@@ -79,6 +55,7 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 		wait(1)
 	end
 	
+	wait(.1)
 	local playerBeatsTime, prevStage = ReplicatedStorage:FindFirstChild('Record Best Time'):InvokeServer(timer)
 	
 	--Records best time on the Stages UI
