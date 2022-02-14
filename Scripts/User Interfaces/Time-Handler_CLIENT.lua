@@ -11,11 +11,11 @@ timer_text = script.Parent
 	timer text => best time in minutes and seconds
 	prev stage => previous stage number
 ]]
-function recordBestTimeOnStageUI(timer_text, prevStage)
+function recordBestTimeOnStageUI(timer_text)
 	local TimerUI = script:FindFirstAncestorOfClass('ScreenGui')
 	local StageUI = TimerUI.Parent:FindFirstChild('Stage UI')
-	--Stage number from Stage UI
-	local stageNumUI = StageUI.Main:FindFirstChild(prevStage)
+	--Gets the current stage number to locate the corresponding stage from Stages UI
+	local stageNumUI = StageUI.Main:FindFirstChild(tostring(player['Current Stage'].Value))
 	--Sets best time on Stage UI
 	stageNumUI['Best Time'].Text = timer_text.Text
 end
@@ -56,11 +56,11 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 	end
 	
 	wait(.1)
-	local playerBeatsTime, prevStage = ReplicatedStorage:FindFirstChild('Record Best Time'):InvokeServer(timer)
+	local playerBeatsTime = ReplicatedStorage:FindFirstChild('Record Best Time'):InvokeServer(timer)
 	
 	--Records best time on the Stages UI
 	if playerBeatsTime then
-		recordBestTimeOnStageUI(timer_text, prevStage)
+		recordBestTimeOnStageUI(timer_text)
 	end
 	
 	timer = 0
