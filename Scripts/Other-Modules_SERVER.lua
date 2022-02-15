@@ -1,6 +1,7 @@
 --ReplicatedStorage
 ReplicatedStorage = game.ReplicatedStorage
 
+
 --[[Converts the time froms seconds to minutes and seconds
 	ex) 250s => 3m 10s
 	
@@ -10,8 +11,7 @@ ReplicatedStorage = game.ReplicatedStorage
 	Return(s):
 	converted time => time in mins and secs
 ]]
-ReplicatedStorage:FindFirstChild('Convert Secs to Mins & Secs').OnServerInvoke = function(player, timer)
-
+function convertSecsToMinsSecs(timer)
 	--Minutes
 	local minutes = math.floor(timer/60)
 	--Seconds from 0 to 59
@@ -23,3 +23,20 @@ ReplicatedStorage:FindFirstChild('Convert Secs to Mins & Secs').OnServerInvoke =
 
 	return minutes..':'..seconds
 end
+
+--[[Converts the time to regular time format
+
+	ex) 35 => 0:35, 75 => 1:15
+
+	timer => player's best time
+]]
+ReplicatedStorage:FindFirstChild('Change Time Format').OnServerInvoke = function (player, timer)
+	if timer >= 0 and timer < 10 then
+		return '0:0'..timer
+	elseif timer >= 10 and timer < 60 then
+		return '0:'..timer
+	end
+
+	return convertSecsToMinsSecs(timer)	
+end
+

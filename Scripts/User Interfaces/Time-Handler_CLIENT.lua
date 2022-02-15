@@ -20,21 +20,6 @@ function recordBestTimeOnStageUI(timer_text)
 	stageNumUI['Best Time'].Text = timer_text.Text
 end
 
---[[Displays time on the player's UI
-
-	Param(s):
-	timer => current time of the player doing the obby
-]]
-function displayTime(timer)
-	if timer >= 0 and timer < 10 then
-		timer_text.Text = '0:0'..timer
-	elseif timer >= 10 and timer < 60 then
-		timer_text.Text = '0:'..timer
-	else
-		timer_text.Text = ReplicatedStorage:FindFirstChild('Convert Secs to Mins & Secs'):InvokeServer(timer)
-	end
-end
-
 --Starts the timer
 ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 	
@@ -51,11 +36,12 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 		end
 		
 		timer += 1
-		displayTime(timer)
+		
+		--Needs to change time format to 0:00. ex) 30s => 0:30; 90s => 1:30
+		timer_text.Text = ReplicatedStorage:FindFirstChild('Change Time Format'):InvokeServer(timer)
 		wait(1)
 	end
 	
-	wait(.1)
 	local playerBeatsTime = ReplicatedStorage:FindFirstChild('Record Best Time'):InvokeServer(timer)
 	
 	--Records best time on the Stages UI
@@ -63,6 +49,7 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 		recordBestTimeOnStageUI(timer_text)
 	end
 	
+	--Resets time after 
 	timer = 0
-	displayTime(timer)
+	timer_text.Text = '0:00'
 end)
