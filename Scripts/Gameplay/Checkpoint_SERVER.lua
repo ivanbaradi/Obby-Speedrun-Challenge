@@ -20,6 +20,11 @@ function addStageNumberToStages(playerStages)
 	local bestTime = Instance.new('IntValue', newStage)
 	bestTime.Name = 'Best Time'
 	bestTime.Value = 2147483647
+	
+	--Has Played This Stage
+	local hasPlayedThisStage = Instance.new('BoolValue', newStage)
+	hasPlayedThisStage.Name = 'Has Finished This Stage'
+	hasPlayedThisStage.Value = false
 end
 
 
@@ -38,13 +43,15 @@ function unlockNewStage(player, playerStageNumber, stageNumber_INT)
 end
 
 
-
 stageNumber.Touched:Connect(function(part)
 		
 	--Gets the player's character
 	local character = part:FindFirstAncestorOfClass('Model')
+	if not character then return end
+	
 	--Player humanoid
 	local humanoid = character:FindFirstChild('Humanoid')
+	if not humanoid then return end
 	
 	--Make sure the player's character is not dead
 	if humanoid.Health == 0 then 
@@ -57,7 +64,7 @@ stageNumber.Touched:Connect(function(part)
 	--Gets player's leaderstats
 	local leaderstats = player.leaderstats
 	--Gets player's highest stage number
-	local playerStageNumber = leaderstats:WaitForChild('Stage')
+	local playerStageNumber = leaderstats:WaitForChild('Max Stage')
 	--Converts stage number's datatype from string to int
 	local stageNumber_INT = tonumber(stageNumber.Name)
 	
