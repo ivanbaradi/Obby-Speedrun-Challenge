@@ -24,18 +24,24 @@ end)
 --Teleports player to stage 
 button.MouseButton1Click:Connect(function()
 	
-	--Cannot teleport because the player is dead
-	if player.Character:FindFirstChild('Humanoid').Health == 0 then
-		CLIENT_CLIENT:FireServer('Play Sound Effect', 'Error Sound')	
-		print('Unable to teleport '..player.Name..' because it died.')
+	--Cannot teleport because the player is dead or did not unlock stage (color is still red)
+	if player.Character:FindFirstChild('Humanoid').Health == 0 or button.BackgroundColor3 ~= Color3.fromRGB(36, 255, 6) then
+		
+		--Tells server to communicate with other client to play error sound
+		CLIENT_CLIENT:FireServer('Play Sound', {
+			soundObj = 'Sound Effect' ,
+			soundName = 'Error Sound'
+		})	
+		
 		return
 	end
 	
-	if button.BackgroundColor3 == Color3.fromRGB(36, 255, 6) then
-		CLIENT_CLIENT:FireServer('Play Sound Effect', 'Button Clicked')	
-		ReplicatedStorage:FindFirstChild('Teleport Player to Stage'):FireServer(player.Character, workspace:FindFirstChild(stageNumber))
-	else
-		CLIENT_CLIENT:FireServer('Play Sound Effect', 'Error Sound')	
-		print('Stage '..stageNumber..' is locked!')
-	end
+	--Tells server to communicate with other client to play button click
+	CLIENT_CLIENT:FireServer('Play Sound', {
+		soundObj = 'Sound Effect' ,
+		soundName = 'Button Clicked'
+	})	
+	
+	--Tells server to teleport player to another stage
+	ReplicatedStorage:FindFirstChild('Teleport Player to Stage'):FireServer(player.Character, workspace:FindFirstChild(stageNumber))
 end)

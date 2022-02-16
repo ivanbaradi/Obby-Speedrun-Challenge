@@ -10,8 +10,12 @@ CLIENT_CLIENT = ReplicatedStorage:FindFirstChild('Client to Client')
 	tuple => collection of data
 	
 	ex)
-	Play Sound Effect => {soundID = 12345}
-	Display Message => {text = "Hello World", color = green, waitTime = 5}
+	tuple for displaying message = {
+		message = 'Hello World',
+		color = Color3.fromRBG(10,10,10),
+		duration = 4
+	}
+	
 ]]
 CLIENT_CLIENT.OnServerEvent:Connect(function(player, remoteEventName, tuple)
 	CLIENT_CLIENT:FindFirstChild(remoteEventName):FireClient(player, tuple)
