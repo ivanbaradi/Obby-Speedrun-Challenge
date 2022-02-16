@@ -4,6 +4,7 @@
 - Learn how to use DataStore APIs to save and load player's data.
 - Learn how to save checkpoints.
 - Increase creativity skills when making obby stages.
+- Learn Roblox Lua.
 
 ## **Description**
 
@@ -17,9 +18,12 @@ complete obbies from other obby games.
 Lua, Roblox Studios
 
 ## **Responsibilities & Accomplishments**
+- Wrote 10+ scripts that creates the game using Lua.
+- Documented implementations to write functionalities using Google Docs.
 - Designed a Timer UI to increase elapse time, resets it, and converts
 the timer (in seconds) format to **0:00**.
-- Developed a teleporter API to teleport players to another stage and 
-respawn them to their selected stages to do after they died.
+- Developed a teleporter API to teleport players to another area.
 - Designed a playlist that loops itself forever with selected songs using
 Roblox SoundId assets.
+- Utilized DataStore API to save and load player's data.
+- Utilized remote functions and events to allow communications between clients and the server.
