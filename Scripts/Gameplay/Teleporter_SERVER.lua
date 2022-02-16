@@ -1,7 +1,9 @@
 --ReplicatedStorage
 ReplicatedStorage = game.ReplicatedStorage
+--ServerStorage
+ServerStorage = game.ServerStorage
 
---[[Teleports player to another stage 
+--[[Teleports player to another area 
 
 	Case(s):
 	I. Player presses 'Stage' button
@@ -10,22 +12,26 @@ ReplicatedStorage = game.ReplicatedStorage
 	Param(s):
 	player => player object (client)
 	char => player's character
-	stage number => 'stage number' part from the workspace
+	part => destination of the character to teleport at (stage number or Port B)
 ]]
-function teleporter(player, char, stageNumber)
+function teleporter(player, char, part)
 	
 	--Sets player's primary part
 	char.PrimaryPart = char:FindFirstChild("Torso") or char:FindFirstChild("UpperTorso")
 	----Sets the location of the player's spawn orrespawn
-	char:SetPrimaryPartCFrame(CFrame.new(Vector3.new(stageNumber.Position.X, stageNumber.Position.Y+3,stageNumber.Position.Z)))
+	char:SetPrimaryPartCFrame(CFrame.new(Vector3.new(part.Position.X, part.Position.Y+3,part.Position.Z)))
 	----Spawns player at that stage number
 	char.Parent = workspace
 	
-	print(char.Name..' has teleported to Stage '..stageNumber.Name)
+	if part.Name ~= 'Port B' then
+		print(char.Name..' has teleported to Stage '..part.Name)
+	end
 end
 
---Fires when the player presses the 'Stage' button to teleport
+--Event occurs when the player presses the 'Stage' button to teleport
 ReplicatedStorage:FindFirstChild('Teleport Player to Stage').OnServerEvent:Connect(teleporter)
+--Event occurs after the player finished Stage 6 and got teleported to the finish area
+ServerStorage:FindFirstChild('Teleport Player to Port B').Event:Connect(teleporter)
 
 game.Players.PlayerAdded:Connect(function(player)
 	player.CharacterAdded:Connect(function(char)
