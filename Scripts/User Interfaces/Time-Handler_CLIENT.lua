@@ -4,6 +4,8 @@ ReplicatedStorage = game.ReplicatedStorage
 player = game.Players.LocalPlayer
 --Timer TextLabel
 timer_text = script.Parent
+--Client to Client Communications Event
+CLIENT_CLIENT = ReplicatedStorage:FindFirstChild('Client to Client')
 
 --[[Records best time on Stage UI
 
@@ -18,6 +20,14 @@ function recordBestTimeOnStageUI(timer_text)
 	local stageNumUI = StageUI.Main:FindFirstChild(tostring(player['Current Stage'].Value))
 	--Sets best time on Stage UI
 	stageNumUI['Best Time'].Text = timer_text.Text
+	--Tells server to communicate with other client to play sound effect (See 'Play Sound Effect' LocalScript for code)
+	CLIENT_CLIENT:FireServer('Play Sound Effect', 'New Record!')	
+	--Tells server to communicate with other client to display message (See 'Display Message' LocalScript for code)
+	CLIENT_CLIENT:FireServer('Display Message', {
+		message = 'New Record of '..timer_text.Text..'!',
+		color = Color3.fromRGB(34, 255, 31),
+		duration = 5
+	})
 end
 
 --Starts the timer
