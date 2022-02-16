@@ -1,4 +1,4 @@
-# Timed-Obby-Challenge
+# Obby Speedrun Challenge
 
 ## **Objectives**
 - Learn how to use DataStore APIs to save and load player's data.
