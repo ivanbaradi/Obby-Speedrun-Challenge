@@ -35,7 +35,7 @@ ServerStorage:FindFirstChild('Teleport Player to Port B').Event:Connect(teleport
 
 game.Players.PlayerAdded:Connect(function(player)
 	player.CharacterAdded:Connect(function(char)
-		wait(.1)
+		wait(.05)
 		--Sets to false because the player just respawned
 		player:WaitForChild('Is Performing Obby').Value = false
 		--Respawns player to the their current stage they want to do
