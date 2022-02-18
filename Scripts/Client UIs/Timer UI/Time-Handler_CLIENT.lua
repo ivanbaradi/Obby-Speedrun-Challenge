@@ -51,7 +51,7 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 		end
 		
 		timer += 1
-		
+		print('Time: '..timer..'s')
 		--Needs to change time format to 0:00. ex) 30s => 0:30; 90s => 1:30
 		timer_text.Text = ReplicatedStorage:FindFirstChild('Change Time Format'):InvokeServer(timer)
 		wait(1)
@@ -64,7 +64,6 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 		recordBestTimeOnStageUI(timer_text)
 	end
 	
-	--Resets time after 
-	timer = 0
+	--Resets time 
 	timer_text.Text = '0:00'
 end)
