@@ -8,11 +8,7 @@
 
 ## **Description**
 
-Are you a hardcore player who cares about the time and speed 
-of completing the obby? If so, then come down and practice 
-completing similar stages. There are only a total of 10 stages in
-this game, but you can get at least the practice you need to 
-complete obbies from other obby games.
+Are you a hardcore player who cares about the time of completing the obby? If so, then come down and practice completing similar stages. There are only 10 stages in this game, but you can get at least the practice you need to complete obbies from other obby games. You can even replay the stage to beat your time.
 
 ## **Tools**
 Lua, Roblox Studios
