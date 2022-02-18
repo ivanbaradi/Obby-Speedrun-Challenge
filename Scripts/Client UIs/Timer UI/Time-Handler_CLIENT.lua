@@ -42,6 +42,7 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 	local timer = 0
 	
 	--Time increases
+	print('Timer has started')
 	while player['Is Performing Obby'].Value do
 		
 		--Cannot record time if the player dies (Timer suspended)
@@ -50,12 +51,17 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 			return 
 		end
 		
+		wait(1)
+		
+		--Timer should not increase after the player is finished with the obby
+		if not player['Is Performing Obby'].Value then break end
+		
 		timer += 1
 		print('Time: '..timer..'s')
 		--Needs to change time format to 0:00. ex) 30s => 0:30; 90s => 1:30
 		timer_text.Text = ReplicatedStorage:FindFirstChild('Change Time Format'):InvokeServer(timer)
-		wait(1)
 	end
+	print('Timer has ended')
 	
 	local playerBeatsTime = ReplicatedStorage:FindFirstChild('Record Best Time'):InvokeServer(timer)
 	
