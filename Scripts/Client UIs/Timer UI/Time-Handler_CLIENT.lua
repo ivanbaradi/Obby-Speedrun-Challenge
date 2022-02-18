@@ -41,9 +41,9 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 	--Current time of the player doing the obby
 	local timer = 0
 	
-	--Time increases
 	print('Timer has started')
-	while player['Is Performing Obby'].Value do
+	--Time increases
+	while true do
 		
 		--Cannot record time if the player dies (Timer suspended)
 		if player.Character:FindFirstChild('Humanoid').Health == 0 then 
