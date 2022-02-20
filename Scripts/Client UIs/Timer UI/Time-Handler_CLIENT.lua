@@ -16,10 +16,10 @@ CLIENT_CLIENT = ReplicatedStorage:FindFirstChild('Client to Client')
 function recordBestTimeOnStageUI(timer_text)
 	local TimerUI = script:FindFirstAncestorOfClass('ScreenGui')
 	local StageUI = TimerUI.Parent:FindFirstChild('Stage UI')
-	--Gets the current stage number to locate the corresponding stage from Stages UI
-	local stageNumUI = StageUI.Main:FindFirstChild(tostring(player['Current Stage'].Value))
+	--Gets the previous stage number to locate the corresponding stage from Stages UI
+	local prevStageNumUI = StageUI.Main:FindFirstChild(tostring(player['Current Stage'].Value-1))
 	--Sets best time on Stage UI
-	stageNumUI['Best Time'].Text = timer_text.Text
+	prevStageNumUI['Best Time'].Text = timer_text.Text
 	
 	--Tells server to communicate with other client to play sound effect (See 'Play Sound Effect' LocalScript for code)
 	CLIENT_CLIENT:FireServer('Play Sound', {
@@ -69,6 +69,7 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 	if playerBeatsTime then
 		recordBestTimeOnStageUI(timer_text)
 	end
+	
 	
 	--Resets time 
 	timer_text.Text = '0:00'

@@ -37,7 +37,6 @@ StageNumber.Touched:Connect(function(part)
 		ReplicatedStorage:FindFirstChild('Auto Close Stage UI'):FireClient(player)
 		--Tells the Timer UI to start the time (See 'Time-Handler_CLIENT' file)
 		ReplicatedStorage:FindFirstChild('Start Time'):FireClient(player)
-		wait(.5)
 		print(player.Name..' has started the obby')
 	end
 	
