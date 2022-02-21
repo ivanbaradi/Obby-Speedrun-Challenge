@@ -36,10 +36,11 @@ StageNumber.Touched:Connect(function(part)
 	if not player['Is Performing Obby'].Value and currentTime == 0 then 
 		player['Is Performing Obby'].Value = true
 		--Tells the Stage UI to automatically close itself (See 'Open-StageUI_CLIENT' file)
-		ReplicatedStorage:FindFirstChild('Auto Close Stage UI'):FireClient(player)
+		ReplicatedStorage:FindFirstChild('Auto Close Stage UI'):InvokeClient(player)
 		--Tells the Timer UI to start the time (See 'Time-Handler_CLIENT' file)
 		ReplicatedStorage:FindFirstChild('Start Time'):FireClient(player)
 		print(player.Name..' has started the obby')
+		
 	else
 		print('Unable to start timer')
 	end

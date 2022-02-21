@@ -8,6 +8,32 @@ ReplicatedStorage = game.ReplicatedStorage
 player = game.Players.LocalPlayer
 --Client to Client Communications Event
 CLIENT_CLIENT = ReplicatedStorage:FindFirstChild('Client to Client')
+--Debouncer
+debounce = false
+
+--[[Tells server to communicate with other client to play error sound
+
+	Param(s):
+	_soundName = name of the sound to play
+]]
+function playSound(_soundName)
+	CLIENT_CLIENT:FireServer('Play Sound', {
+		soundObj = 'Sound Effect',
+		soundName = _soundName
+	})	
+end
+
+--[[Tells server to communicate with other client to send a message 
+
+	_message = text (str) to send to the server
+]]
+function sendMessage(_message)
+	CLIENT_CLIENT:FireServer('Display Message', {
+		message = _message,
+		color = Color3.fromRGB(252, 61, 74),
+		duration = 5		
+	})
+end
 
 --[[Changes the stage button color to unlock the stage to teleport to another stage
 
@@ -24,24 +50,35 @@ end)
 --Teleports player to stage 
 button.MouseButton1Click:Connect(function()
 	
-	--Cannot teleport because the player is dead or did not unlock stage (color is still red)
-	if player.Character:FindFirstChild('Humanoid').Health == 0 or button.BackgroundColor3 ~= Color3.fromRGB(36, 255, 6) then
-		
-		--Tells server to communicate with other client to play error sound
-		CLIENT_CLIENT:FireServer('Play Sound', {
-			soundObj = 'Sound Effect' ,
-			soundName = 'Error Sound'
-		})	
-		
+	if debounce then return end
+
+	debounce = true
+	wait(.1)
+	
+	--Gets player's humanoid
+	local humanoid = player.Character:FindFirstChild('Humanoid')
+	
+	--Cannot teleport because the player is dead
+	if humanoid.Health == 0 then
+		playSound('Error Sound')
+		sendMessage("Dead players can't teleport")
+		debounce = false
 		return
 	end
-	
+
+	--Cannot teleport because the player is doing the obby (Illegal teleport)
+	if player['Is Performing Obby'].Value then
+		playSound('Error Sound')
+		sendMessage('You seriously have to do that?')
+		humanoid.Health = 0
+		debounce = false
+		return
+	end
+
 	--Tells server to communicate with other client to play button click
-	CLIENT_CLIENT:FireServer('Play Sound', {
-		soundObj = 'Sound Effect' ,
-		soundName = 'Button Clicked'
-	})	
+	playSound('Button Clicked')	
 	
 	--Tells server to teleport player to another stage
 	ReplicatedStorage:FindFirstChild('Teleport Player to Stage'):FireServer(player.Character, workspace:FindFirstChild(stageNumber))
+	debounce = false
 end)

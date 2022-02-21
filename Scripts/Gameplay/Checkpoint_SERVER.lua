@@ -1,47 +1,7 @@
 --Stage Number
 stageNumber = script.Parent
 --ReplicatedStorage
-ReplicatedStorage = game.ReplicatedStorage
-
---[[Adds a stage number to the player's stages,
-	because the player unlocked a new stage
-
-
-	Param(s):
-	player stages => stages that the player unlocked
-]]
-function addStageNumberToStages(playerStages)
-	
-	--Adds stage to the player's stage folder
-	local newStage = Instance.new('StringValue', playerStages)
-	newStage.Name = stageNumber.Name
-	
-	--Best Time
-	local bestTime = Instance.new('IntValue', newStage)
-	bestTime.Name = 'Best Time'
-	bestTime.Value = 2147483647
-	
-	--Has Played This Stage
-	local hasPlayedThisStage = Instance.new('BoolValue', newStage)
-	hasPlayedThisStage.Name = 'Has Finished This Stage'
-	hasPlayedThisStage.Value = false
-end
-
-
---[[Unlocks new stage, and sets highest stage number
-
-	Param(s):
-	player => player object
-	player stage number => player's highest stage number
-	stage number => 'stage number' part as a integer
-]]
-function unlockNewStage(player, playerStageNumber, stageNumber_INT)
-	playerStageNumber.Value = stageNumber_INT
-	addStageNumberToStages(player:FindFirstChild('Stages'))
-	ReplicatedStorage:FindFirstChild('Unlock Stage'):FireClient(player, stageNumber.Name)
-	print(player.Name..' unlocked Stage '..stageNumber.Name)
-end
-
+ServerStorage = game.ServerStorage
 
 stageNumber.Touched:Connect(function(part)
 		
@@ -70,7 +30,8 @@ stageNumber.Touched:Connect(function(part)
 	
 	--Unlocks new stage if the player hasn't been on it
 	if playerStageNumber.Value < stageNumber_INT then
-		unlockNewStage(player, playerStageNumber, stageNumber_INT)
+		--unlockNewStage(player, playerStageNumber, stageNumber_INT)
+		ServerStorage:FindFirstChild('Unlock Stage'):Fire(player, playerStageNumber, stageNumber_INT)
 	end
 	
 	--Saves checkpoint and sets player's current stage position

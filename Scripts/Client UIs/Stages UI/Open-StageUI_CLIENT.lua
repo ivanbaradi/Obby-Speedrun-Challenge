@@ -12,9 +12,9 @@ ReplicatedStorage = game.ReplicatedStorage
 CLIENT_CLIENT = ReplicatedStorage:FindFirstChild('Client to Client')
 
 --Automatically closes Stage UI when the player starts the obby
-ReplicatedStorage:FindFirstChild('Auto Close Stage UI').OnClientEvent:Connect(function()
+ReplicatedStorage:FindFirstChild('Auto Close Stage UI').OnClientInvoke = function()
 	Main.Visible = false
-end)
+end
 
 --Opens or closes the UI
 button.MouseButton1Click:Connect(function()
