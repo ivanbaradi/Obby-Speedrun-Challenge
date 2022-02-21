@@ -26,13 +26,16 @@ script.Parent.Touched:Connect(function(part)
 		return
 	end
 	
-	--Ends timer
-	player['Is Performing Obby'].Value = false
-	--Sets true if the player beats this stage the first time
-	player['Stages'][player['Current Stage'].Value]['Has Finished This Stage'].Value = true
-	--Teleports player to the next stage
-	ServerStorage:FindFirstChild('Teleport Player to Next Stage'):Fire(nil, character, workspace:FindFirstChild(tostring(NextStage)))
-	print(player.Name..' has finished the stage and will be teleported to Stage '..NextStage)
+	--Players should only move to the next stage if they are doing the obby (timer is running)
+	if player['Is Performing Obby'].Value then
+		--Ends timer
+		player['Is Performing Obby'].Value = false
+		--Sets true if the player beats this stage the first time
+		player['Stages'][player['Current Stage'].Value]['Has Finished This Stage'].Value = true
+		--Teleports player to the next stage
+		ServerStorage:FindFirstChild('Teleport Player to Next Stage'):Fire(nil, character, workspace:FindFirstChild(tostring(NextStage)))
+		print(player.Name..' has finished the stage and will be teleported to Stage '..NextStage)
+	end
 	
 	debounce = false
 end)

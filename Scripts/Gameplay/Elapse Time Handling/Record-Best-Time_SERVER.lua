@@ -11,7 +11,7 @@ ReplicatedStorage = game.ReplicatedStorage
 	false => player did not beat their 
 ]]
 ReplicatedStorage:FindFirstChild('Record Best Time').OnServerInvoke = function(player, timer)
-	wait(.1)
+	wait(.5)
 	--Gets player's stages
 	local playerStages = player:FindFirstChild('Stages')
 	--Gets the player's previous stage number from player stages
