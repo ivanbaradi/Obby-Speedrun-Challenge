@@ -6,6 +6,8 @@ player = game.Players.LocalPlayer
 timer_text = script.Parent
 --Client to Client Communications Event
 CLIENT_CLIENT = ReplicatedStorage:FindFirstChild('Client to Client')
+--Current time of the player doing the obby
+timer = 0
 
 --[[Records best time on Stage UI
 
@@ -35,11 +37,13 @@ function recordBestTimeOnStageUI(timer_text)
 	})
 end
 
+--Gets the current time
+ReplicatedStorage:FindFirstChild('Get Current Time').OnClientInvoke = function()
+	return timer
+end
+
 --Starts the timer
 ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
-	
-	--Current time of the player doing the obby
-	local timer = 0
 	
 	print('Timer has started')
 	--Time increases
@@ -72,5 +76,6 @@ ReplicatedStorage:FindFirstChild('Start Time').OnClientEvent:Connect(function()
 	
 	
 	--Resets time 
+	timer = 0
 	timer_text.Text = '0:00'
 end)
