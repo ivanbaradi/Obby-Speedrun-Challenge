@@ -70,7 +70,14 @@ button.MouseButton1Click:Connect(function()
 	if player['Is Performing Obby'].Value then
 		playSound('Error Sound')
 		sendMessage('You seriously have to do that?')
-		humanoid.Health = 0
+		debounce = false
+		return
+	end
+	
+	--This stage is locked
+	if button.BackgroundColor3 == Color3.fromRGB(245, 84, 60) then
+		playSound('Error Sound')
+		sendMessage('Stage '..stageNumber..' is locked')
 		debounce = false
 		return
 	end

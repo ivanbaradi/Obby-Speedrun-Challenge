@@ -1,7 +1,9 @@
 --Stage Number
 stageNumber = script.Parent
---ReplicatedStorage
+--ServerStorage
 ServerStorage = game.ServerStorage
+--ReplicatedStorage
+ReplicatedStorage = game.ReplicatedStorage
 
 stageNumber.Touched:Connect(function(part)
 		
@@ -36,5 +38,7 @@ stageNumber.Touched:Connect(function(part)
 	
 	--Saves checkpoint and sets player's current stage position
 	player:WaitForChild('Current Stage').Value = stageNumber_INT
+	--Tells client to set current stage number and best time on 'Current Stage' UI
+	ReplicatedStorage:FindFirstChild('Set Player Current Stage on UI'):FireClient(player)
 	print('Checkpoint saved!')
 end)
