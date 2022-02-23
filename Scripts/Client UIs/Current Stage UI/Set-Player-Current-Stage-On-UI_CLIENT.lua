@@ -26,6 +26,6 @@ ReplicatedStorage:FindFirstChild('Set Player Current Stage on UI').OnClientEvent
 		currentBestTimeText.Text = ReplicatedStorage:FindFirstChild('Change Time Format'):InvokeServer(bestTime)
 	else
 		currentBestTimeText.Text = '---'
-		print('No best time is recorded on Stage '..currentStage)
+		--print('No best time is recorded on Stage '..currentStage)
 	end
 end)

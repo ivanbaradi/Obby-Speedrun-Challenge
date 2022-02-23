@@ -33,7 +33,7 @@ script.Parent.Touched:Connect(function(part)
 		--Sets true if the player beats this stage the first time
 		player['Stages'][player['Current Stage'].Value]['Has Finished This Stage'].Value = true
 		--Teleports player to the next stage
-		ServerStorage:FindFirstChild('Teleport Player to Next Stage'):Fire(nil, character, workspace:FindFirstChild(tostring(NextStage)))
+		ServerStorage:FindFirstChild('Teleport Player to Stage'):Fire(nil, character, workspace:FindFirstChild(tostring(NextStage)))
 		print(player.Name..' has finished the stage and will be teleported to Stage '..NextStage)
 	end
 	
