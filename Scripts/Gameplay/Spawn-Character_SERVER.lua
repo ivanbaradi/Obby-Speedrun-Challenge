@@ -9,8 +9,11 @@ game.Players.PlayerAdded:Connect(function(player)
 		player:WaitForChild('Is Performing Obby').Value = false
 		--Disables player to player collision
 		ServerStorage:FindFirstChild('Disable Player Collision'):Fire(char)
+		
 		--Respawns player to the their current stage
-		local currentStageNumber = tostring(player:FindFirstChild('Current Stage').Value)
-		ServerStorage:FindFirstChild('Teleport Player to Stage'):Fire(nil, char, workspace:FindFirstChild(currentStageNumber))
+		if ServerStorage:FindFirstChild('Enable Teleport on Respawn').Value then
+			local currentStageNumber = tostring(player:FindFirstChild('Current Stage').Value)
+			ServerStorage:FindFirstChild('Teleport Player to Stage'):Fire(nil, char, workspace:FindFirstChild(currentStageNumber))
+		end
 	end)
 end)
