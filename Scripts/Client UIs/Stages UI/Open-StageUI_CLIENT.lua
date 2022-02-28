@@ -33,7 +33,7 @@ button.MouseButton1Click:Connect(function()
 		
 		--Gets server to communicate with other client to create message 
 		CLIENT_CLIENT:FireServer('Display Message', {
-			message = 'Unable to open Stages menu because you are currently doing the obby.',
+			message = 'Finish the stage first',
 			color = Color3.fromRGB(252, 61, 74),
 			duration = 5
 		})

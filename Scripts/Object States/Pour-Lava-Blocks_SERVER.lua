@@ -10,10 +10,10 @@ ServerStorage = game.ServerStorage
 	new lava block => allocated Lava Block (Part)
 ]]
 function createLavaBlock()
-	local newLavaBlock = Instance.new('Part', workspace)
+	local newLavaBlock = Instance.new('Part')
 	newLavaBlock.Name = 'Lava'
 	newLavaBlock.Material = 'Neon'
-	newLavaBlock.Size = Vector3.new(9,9,9)	
+	newLavaBlock.Size = Vector3.new(13,13,13)	
 	newLavaBlock.BrickColor = BrickColor.new('Neon orange')
 	return newLavaBlock
 end
@@ -88,5 +88,6 @@ function pourLavaBlocks(start, _end)
 end
 
 while wait(.1) do
-	pourLavaBlocks(1, 5)
+	pourLavaBlocks(1, 3)
+	pourLavaBlocks(4, 5)
 end

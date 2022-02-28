@@ -16,6 +16,10 @@ CLIENT_CLIENT = ReplicatedStorage:FindFirstChild('Client to Client')
 	}
 ]]
 CLIENT_CLIENT:FindFirstChild('Display Message').OnClientEvent:Connect(function(tuple)
+	
+	--Wait until the message has expired
+	if Message.Visible then return end
+	
 	Message.TextColor3 = tuple['color']
 	Message.Text = tuple['message']
 	Message.Visible = true

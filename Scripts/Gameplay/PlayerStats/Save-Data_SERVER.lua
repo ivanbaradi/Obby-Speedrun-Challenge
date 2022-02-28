@@ -70,6 +70,13 @@ script.Parent:FindFirstChild('SAVE DATA').Event:Connect(function(player, Backpac
 	saveStages(player:WaitForChild('Stages'), writeData)
 	
 	--Saves overall data
-	BackpackStore:SetAsync('User_'..player.UserId, writeData)
-	print(player.Name.."'s data saved")
+	local success, err = pcall(function()
+		BackpackStore:SetAsync('User_'..player.UserId, writeData)
+	end)
+	
+	if not success then
+		warn(err)
+	else
+		print(player.Name.."'s data saved")
+	end
 end)
