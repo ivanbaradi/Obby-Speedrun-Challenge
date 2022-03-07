@@ -14,8 +14,12 @@ script.Parent.Touched:Connect(function(part)
 	
 	--Gets the player's character
 	local character = part:FindFirstAncestorOfClass('Model')
+	if not character then debounce = false return end
+	
 	--Player humanoid
 	local humanoid = character:FindFirstChild('Humanoid')
+	if not humanoid then debounce = false return end
+	
 	--Gets player
 	local player = game.Players:GetPlayerFromCharacter(character)
 	

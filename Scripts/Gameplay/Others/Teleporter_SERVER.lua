@@ -19,7 +19,7 @@ function teleporter(player, char, part)
 	--Sets player's primary part
 	char.PrimaryPart = char:FindFirstChild("Torso") or char:FindFirstChild("UpperTorso")
 	----Sets the location of the player's spawn orrespawn
-	char:SetPrimaryPartCFrame(CFrame.new(Vector3.new(part.Position.X, part.Position.Y+3,part.Position.Z)))
+	char:SetPrimaryPartCFrame(CFrame.new(part.Position.X, part.Position.Y+3,part.Position.Z) * CFrame.Angles(0, math.rad(270), 0))
 	----Spawns player at that stage number
 	char.Parent = workspace
 end

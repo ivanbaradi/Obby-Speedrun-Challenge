@@ -11,11 +11,12 @@ CLIENT_CLIENT = ReplicatedStorage:FindFirstChild('Client to Client')
 --[[Sets a new record (elapsed time) on the UI
 
 	Param(s):
+	old stage => need to write the player's best time at the stage UI
 	new record time => new elapsed time to update on the Stage UI after the player beats PR
 ]]
-ReplicatedStorage:FindFirstChild('Update Record Time').OnClientEvent:Connect(function(newRecordTime)
+ReplicatedStorage:FindFirstChild('Update Record Time').OnClientEvent:Connect(function(oldStage, newRecordTime)
 	--Gets the previous stage number to locate the corresponding stage from Stages UI
-	local prevStageNumUI = Main:FindFirstChild(tostring(player['Current Stage'].Value-1))
+	local prevStageNumUI = Main:FindFirstChild(tostring(oldStage))
 	--Sets best time on Stage UI
 	prevStageNumUI['Best Time'].Text = newRecordTime
 	
