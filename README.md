@@ -7,7 +7,7 @@
 - Learn Lua using RobloxStudios APIs.
 
 ## **Description**
-Are you a hardcore player who cares about the time of completing the obby? Then come on down and tackle difficult stages! There are only 10 stages in this game. You can replay the stage to beat your time. 
+Are you a hardcore player who cares about the time of completing the obby? Then come on down and take on difficult stages! There are only 10 stages in this game. You can replay any stage to beat your time. 
 
 ## **Tools**
 Lua, Roblox Studios
