@@ -1,18 +1,39 @@
 --Playlist 
 local Playlist = script.Parent
 --List of songs from the playlist
-local Songs = Playlist:FindFirstChild('Songs')
+local Songs = Playlist:FindFirstChild('Songs'):GetChildren()
+
+--[[Gives song time to load and determines if the song can play
+
+	Return(s):
+		boolean: flag of song validation
+]]
+function canPlaySong() : boolean
+
+	local maxTime = 5 -- max time of song loading
+	local startTime = tick() -- start time song loading
+
+	repeat
+		task.wait(.1)
+		local loadTime = tick() - startTime -- current loading time
+		--print('Song load time: '..loadTime)
+	until Playlist.IsLoaded or loadTime > maxTime
+
+	return Playlist.IsLoaded
+end
+
+
 
 --Playlist runs forever in the server
 while true do
-	for _, song in pairs(Songs:GetChildren()) do
-		--Gets Sound ID
-		Playlist.SoundId = 'rbxassetid://'..song.Value
-		--Plays the song
+	
+	local Song = Songs[math.random(#Songs)]
+	Playlist.SoundId = 'rbxassetid://'..Song.Value
+	--print("Loading song: '"..Song.Name.."'")
+	
+	if canPlaySong() then
 		Playlist:Play()
-		--Current time position of the song
 		local time_pos = 0
-		
 		repeat
 			wait(1)
 			time_pos += 1
