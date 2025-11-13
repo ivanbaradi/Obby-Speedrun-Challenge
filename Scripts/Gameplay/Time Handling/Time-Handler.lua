@@ -46,6 +46,24 @@ end
 		player: target player
 ]]
 function handleTime(player: Player)
+	
+	--[[Checks whether the player's character is dead
+	
+		Parameter(s):
+			char: player's character
+			
+		Return(s):
+			boolean: detector of character's death
+	]]
+	local function charIsDead(char: Model) : boolean
+		if char:FindFirstChild('Humanoid').Health == 0 then 
+			player['Elapsed Time'].Value = 0
+			print('Timer suspended due to '..player.Name.."'s death")
+			return true
+		end
+		
+		return false
+	end
 
 	--Needs to change time format to 0:00. ex) 30s => 0:30; 90s => 1:30
 	local reformattedTime
@@ -65,14 +83,10 @@ function handleTime(player: Player)
 			return 
 		end
 
-		--Cannot cpntinue timer if the player dies (Timer suspended)
-		if char:FindFirstChild('Humanoid').Health == 0 then 
-			player['Elapsed Time'].Value = 0
-			--print('Timer suspended due to '..player.Name.."'s death")
-			return 
-		end
-
+		--Ends timer if player has died before and after timer changes
+		if charIsDead(char) then return end
 		wait(1)
+		if charIsDead(char) then return end
 
 		--Timer should not increase after the player is finished with the obby
 		if not player['Is Performing Obby'].Value then break end
@@ -110,7 +124,7 @@ StartTime.OnInvoke = function(player: Player)
 		HandleTime:Fire(player)
 		print(player.Name..' has started the obby')
 	else
-		print('Unable to start timer')
+		--print('Unable to start timer')
 	end
 end
 
@@ -119,11 +133,8 @@ end
 --Ends player's timer and teleports them to the next stage
 EndTime.OnInvoke = function(player: Player, NextStage: number)
 	if player['Is Performing Obby'].Value then
-		--Ends timer
 		player['Is Performing Obby'].Value = false
-		--Sets true if the player beats this stage the first time
 		player['Stages'][player.leaderstats:WaitForChild('Stage').Value]['Has Finished This Stage'].Value = true
-		--Teleports player to the next stage
 		ServerStorage:FindFirstChild('Teleport Player to Stage'):Fire(nil, player.Character, workspace:FindFirstChild(tostring(NextStage)))
 		print(player.Name..' has finished the stage and will be teleported to Stage '..NextStage)
 	end
