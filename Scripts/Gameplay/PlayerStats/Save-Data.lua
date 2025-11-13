@@ -25,7 +25,7 @@ local function saveStages(playerStages, writeData)
 		table.insert(stageData, 1, unlockedStage.Name)
 		table.insert(stageData, 2, unlockedStage['Best Time'].Value)
 		table.insert(stageData, 3, unlockedStage['Has Finished This Stage'].Value)
-		print('Saved => Stage '..unlockedStage.Name..' with a time of '..unlockedStage['Best Time'].Value..' secs, Stage completed: '..tostring(unlockedStage['Has Finished This Stage'].Value))
+		--print('Saved => Stage '..unlockedStage.Name..' with a time of '..unlockedStage['Best Time'].Value..' secs, Stage completed: '..tostring(unlockedStage['Has Finished This Stage'].Value))
 
 		--Adds stage data to unlokcedStages
 		table.insert(unlockedStages, i, stageData)
@@ -37,12 +37,12 @@ end
 
 --[[Saves the following data:
 	- Max Stage
-	- Current Stage
+	- Stage
 	- Stages (Unlocked Ones)
 ]]
 script.Parent:FindFirstChild('SAVE DATA').Event:Connect(function(player, BackpackStore)
 
-	print("Saving "..player.Name.."'s data")
+	--print("Saving "..player.Name.."'s data")
 	
 	--[[Table that saves overall player's data. 
 	
@@ -55,16 +55,16 @@ script.Parent:FindFirstChild('SAVE DATA').Event:Connect(function(player, Backpac
 	local writeData = {}
 	--Gets player's leaderstats
 	local leaderstats = player:WaitForChild('leaderstats')
+	
+	--Saves player's current stage
+	local currentStage = leaderstats:WaitForChild('Stage').Value
+	table.insert(writeData, 2, currentStage)
+	--print('Saved => Stage: '..writeData[2])
 
 	--Saves player's highest stage
 	local maxStage = leaderstats:WaitForChild('Max Stage').Value
 	table.insert(writeData, 1, maxStage)
-	print('Saved => Max Stage: '..writeData[1])
-	
-	--Saves player's current Stage
-	local currentStage = player:WaitForChild('Current Stage').Value
-	table.insert(writeData, 2, currentStage)
-	print('Saved => Current Stage: '..writeData[2])
+	--print('Saved => Max Stage: '..writeData[1])
 	
 	--Saves player's unlocked stages
 	saveStages(player:WaitForChild('Stages'), writeData)
@@ -77,6 +77,6 @@ script.Parent:FindFirstChild('SAVE DATA').Event:Connect(function(player, Backpac
 	if not success then
 		warn(err)
 	else
-		print(player.Name.."'s data saved")
+		--print(player.Name.."'s data saved")
 	end
 end)

@@ -4,8 +4,8 @@ ReplicatedStorage = game.ReplicatedStorage
 ServerStorage = game.ServerStorage
 --DataStore API
 DataStore = game:GetService("DataStoreService")
---BackpackStore = DataStore:GetDataStore("NinjaData")
-BackpackStore = DataStore:GetDataStore("Test28") --For Debugging 
+BackpackStore = DataStore:GetDataStore("NinjaData")
+--BackpackStore = DataStore:GetDataStore("Test29") --For Debugging 
 --Stage Folder (For new players)
 StageFolder = ServerStorage:FindFirstChild("Stages")
 --Players
@@ -28,15 +28,15 @@ Players.PlayerAdded:Connect(function(player)
 	local leaderstats = Instance.new('Folder', player)
 	leaderstats.Name = 'leaderstats'
 	
+	--Player's current stage 
+	local currentStage = Instance.new('IntValue', leaderstats)
+	currentStage.Name = 'Stage'
+	currentStage.Value = 1
+	
 	--Player's highest stage
 	local highestStage = Instance.new('IntValue', leaderstats)
 	highestStage.Name = 'Max Stage'
 	highestStage.Value = 1
-	
-	--Player's current stage 
-	local currentStage = Instance.new('IntValue', player)
-	currentStage.Name = 'Current Stage'
-	currentStage.Value = 1
 	
 	--Player's elapsed time (current time of completing the obby)
 	local elapseTime = Instance.new('IntValue', player)
@@ -66,7 +66,7 @@ Players.PlayerAdded:Connect(function(player)
 	--Auto saves player's data
 	while wait(10) do
 		saveDataEvent:Fire(player, BackpackStore)
-		print('Autosaved!')
+		--print('Autosaved!')
 	end
 end)
 

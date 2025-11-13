@@ -9,7 +9,7 @@ ReplicatedStorage = game.ReplicatedStorage
 ]]
 function loadStages(player, playerStagesFolder, readDataStages)
 	
-	print('Loading '..player.Name.."'s unlocked stages")
+	--print('Loading '..player.Name.."'s unlocked stages")
 
 	for _, unlockedStage in pairs(readDataStages) do
 
@@ -26,7 +26,7 @@ function loadStages(player, playerStagesFolder, readDataStages)
 		local loadHasFinishedStage = Instance.new('BoolValue', loadStage)
 		loadHasFinishedStage.Name = 'Has Finished This Stage'
 		loadHasFinishedStage.Value = unlockedStage[3]
-		print('Loaded => Stage '..loadStage.Name..' with a time of '..loadBestTime.Value..' secs, Stage completed: '..tostring(loadHasFinishedStage.Value))
+		--print('Loaded => Stage '..loadStage.Name..' with a time of '..loadBestTime.Value..' secs, Stage completed: '..tostring(loadHasFinishedStage.Value))
 		
 		--Unlocks stage and writes best time on the client's stage UI
 		ReplicatedStorage:FindFirstChild('Unlock Stage On Player Join'):FireClient(player, loadStage.Name, loadBestTime.Value, loadHasFinishedStage.Value)
@@ -47,15 +47,16 @@ script.Parent:FindFirstChild('LOAD DATA').Event:Connect(function(player, readDat
 
 	--Gets player's stages data
 
-	print("Loading "..player.Name.."'s data")
+	--print("Loading "..player.Name.."'s data")
+	local leaderstats = player:WaitForChild('leaderstats')
 
 	--Loads player's highest stage
-	player.leaderstats['Max Stage'].Value = readData[1]
-	print("Loaded => Max Stage: "..player.leaderstats['Max Stage'].Value)
+	leaderstats:WaitForChild('Max Stage').Value = readData[1]
+	--print("Loaded => Max Stage: "..leaderstats:WaitForChild('Max Stage').Value)
 
 	--Loads player's current stage
-	player['Current Stage'].Value = readData[2]
-	print("Loaded => Current Stage: "..player['Current Stage'].Value)
+	leaderstats:WaitForChild('Stage').Value = readData[2]
+	--print("Loaded => Current Stage: "..leaderstats:WaitForChild('Stage').Value)
 
 	--Loads player's stages
 	local Stages = Instance.new('Folder', player)
