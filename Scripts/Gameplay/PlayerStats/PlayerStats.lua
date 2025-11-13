@@ -22,7 +22,7 @@ canSave = ServerStorage:FindFirstChild('Enable Save Data').Value
 	will communicate with the 'Load Data' script
 	to load player stats.
 ]]
-Players.PlayerAdded:Connect(function(player)
+Players.PlayerAdded:Connect(function(player: Player)
 	
 	--Player's leaderstats
 	local leaderstats = Instance.new('Folder', player)
@@ -33,10 +33,10 @@ Players.PlayerAdded:Connect(function(player)
 	currentStage.Name = 'Stage'
 	currentStage.Value = 1
 	
-	--Player's highest stage
-	local highestStage = Instance.new('IntValue', leaderstats)
-	highestStage.Name = 'Max Stage'
-	highestStage.Value = 1
+	--Player's max stage
+	local maxStage = Instance.new('IntValue', leaderstats)
+	maxStage.Name = 'Max Stage'
+	maxStage.Value = 1
 	
 	--Player's elapsed time (current time of completing the obby)
 	local elapseTime = Instance.new('IntValue', player)
@@ -77,7 +77,7 @@ end)
 	Communicates with the 'Save Data' Script to save
 	player's stats. 
 ]]
-Players.PlayerRemoving:Connect(function(player)
+Players.PlayerRemoving:Connect(function(player: Player)
 	if not canSave then 
 		print("Unable to save data because 'Enable Save Data' is false")
 		return 
