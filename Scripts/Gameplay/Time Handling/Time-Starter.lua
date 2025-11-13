@@ -8,7 +8,7 @@ debounce = false
 StageNumber = script.Parent
 
 --Fires when the player touches the time starter part
-StageNumber.Touched:Connect(function(part)
+StageNumber.Touched:Connect(function(part: Part)
 	
 	if debounce then return end
 	

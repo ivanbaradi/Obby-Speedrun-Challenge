@@ -16,7 +16,7 @@ DisplayNewElapsedTime = ReplicatedStorage:FindFirstChild('Display New Elapsed Ti
 	true => player beats their PR (setting best time)
 	false => player did not beat their 
 ]]
-function recordBestTime(player, oldStage, timer)
+function recordBestTime(player: Player, oldStage: number, timer: number)
 	--Gets player's stages
 	local playerStages = player:FindFirstChild('Stages')
 	--Gets the player's previous stage number from player stages
@@ -34,20 +34,22 @@ end
 
 
 --Starts the timer
-ServerStorage:FindFirstChild('Handle Time').Event:Connect(function(player)
+ServerStorage:FindFirstChild('Handle Time').Event:Connect(function(player: Player)
 	
 	--Needs to change time format to 0:00. ex) 30s => 0:30; 90s => 1:30
 	local reformattedTime
+	
 	--Copies the value of the player's current stage for setting best score
-	local oldStage = player['Current Stage'].Value
+	--local oldStage = player['Current Stage'].Value
+	local oldStage = player.leaderstats:WaitForChild('Stage').Value
 
-	print('Timer has started')
+	--print('Timer has started')
 	while true do
 
 		--Cannot record time if the player dies (Timer suspended)
 		if player.Character:FindFirstChild('Humanoid').Health == 0 then 
 			player['Elapsed Time'].Value = 0
-			print('Timer suspended due to '..player.Name.."'s death")
+			--print('Timer suspended due to '..player.Name.."'s death")
 			return 
 		end
 
@@ -58,7 +60,7 @@ ServerStorage:FindFirstChild('Handle Time').Event:Connect(function(player)
 	
 		--Updates time here
 		player['Elapsed Time'].Value += 1
-		print('Time: '..tostring(player['Elapsed Time'].Value)..'s')
+		--print('Time: '..tostring(player['Elapsed Time'].Value)..'s')
 		reformattedTime = ServerStorage:FindFirstChild('Change Time Format'):Invoke(nil, player['Elapsed Time'].Value)
 		--Updates time in the player's timer UI
 		DisplayNewElapsedTime:FireClient(player, reformattedTime)

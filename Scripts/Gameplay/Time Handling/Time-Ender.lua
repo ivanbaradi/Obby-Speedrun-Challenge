@@ -6,7 +6,7 @@ debounce = false
 NextStage = script.Parent:FindFirstChild('Next Stage').Value
 
 --Fires when the player touches the time ender part
-script.Parent.Touched:Connect(function(part)
+script.Parent.Touched:Connect(function(part: Part)
 	
 	if debounce then return end
 	
@@ -35,7 +35,7 @@ script.Parent.Touched:Connect(function(part)
 		--Ends timer
 		player['Is Performing Obby'].Value = false
 		--Sets true if the player beats this stage the first time
-		player['Stages'][player['Current Stage'].Value]['Has Finished This Stage'].Value = true
+		player['Stages'][player.leaderstats:WaitForChild('Stage').Value]['Has Finished This Stage'].Value = true
 		--Teleports player to the next stage
 		ServerStorage:FindFirstChild('Teleport Player to Stage'):Fire(nil, character, workspace:FindFirstChild(tostring(NextStage)))
 		print(player.Name..' has finished the stage and will be teleported to Stage '..NextStage)
