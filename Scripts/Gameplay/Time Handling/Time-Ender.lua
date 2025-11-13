@@ -2,11 +2,13 @@
 ServerStorage = game.ServerStorage
 --Prevents the event function from running unneccessary times
 debounce = false
---Next Stage Number
-NextStage = script.Parent:FindFirstChild('Next Stage').Value
+--Current Stage
+Stage = script.Parent
+--Next Stage
+NextStage = Stage:FindFirstChild('Next Stage')
 
 --Fires when the player touches the time ender part
-script.Parent.Touched:Connect(function(part: Part)
+Stage.Touched:Connect(function(part: Part)
 	
 	if debounce then return end
 	
@@ -20,26 +22,14 @@ script.Parent.Touched:Connect(function(part: Part)
 	local humanoid = character:FindFirstChild('Humanoid')
 	if not humanoid then debounce = false return end
 	
-	--Gets player
-	local player = game.Players:GetPlayerFromCharacter(character)
-	
-	--Make sure the player's character is not dead
 	if humanoid.Health == 0 then 
-		print(character.Name.." can't finish obby because it died.")
+		print(character.Name.." can't finish obby because they died.")
 		debounce = false
 		return
 	end
 	
-	--Players should only move to the next stage if they are doing the obby (timer is running)
-	if player['Is Performing Obby'].Value then
-		--Ends timer
-		player['Is Performing Obby'].Value = false
-		--Sets true if the player beats this stage the first time
-		player['Stages'][player.leaderstats:WaitForChild('Stage').Value]['Has Finished This Stage'].Value = true
-		--Teleports player to the next stage
-		ServerStorage:FindFirstChild('Teleport Player to Stage'):Fire(nil, character, workspace:FindFirstChild(tostring(NextStage)))
-		print(player.Name..' has finished the stage and will be teleported to Stage '..NextStage)
-	end
+	--Tells another script to end player's timer
+	ServerStorage:FindFirstChild('End Time'):Invoke(game.Players:GetPlayerFromCharacter(character), NextStage.Value)
 	
 	debounce = false
 end)

@@ -1,22 +1,28 @@
---ServerStorage
+--Roblox Services
 ServerStorage = game.ServerStorage
---ReplicatedStorage
 ReplicatedStorage = game.ReplicatedStorage
---Display New Elapsed Time (Remote Event)
+
+--RemoteEvents
 DisplayNewElapsedTime = ReplicatedStorage:FindFirstChild('Display New Elapsed Time')
+
+--Bindable Functions & Events
+HandleTime = ServerStorage:FindFirstChild('Handle Time')
+StartTime = ServerStorage:FindFirstChild('Start Time')
+EndTime = ServerStorage:FindFirstChild('End Time')
+
+
 
 --[[Records player's best time
 
-	Param(s):
-	player => player object
-	old stage => need to record the player's best time at that stage
-	timer => best time in seconds
+	Parameter(s):
+		player: player object
+		old stage: need to record the player's best time at that stage
+		timer: best time in seconds
 	
 	Return(s):
-	true => player beats their PR (setting best time)
-	false => player did not beat their 
+		boolean: detection of player beating best time
 ]]
-function recordBestTime(player: Player, oldStage: number, timer: number)
+function recordBestTime(player: Player, oldStage: number, timer: number) : boolean
 	--Gets player's stages
 	local playerStages = player:FindFirstChild('Stages')
 	--Gets the player's previous stage number from player stages
@@ -33,12 +39,17 @@ function recordBestTime(player: Player, oldStage: number, timer: number)
 end
 
 
---Starts the timer
-ServerStorage:FindFirstChild('Handle Time').Event:Connect(function(player: Player)
-	
+
+--[[Starts the timer
+
+	Parameter(s):
+		player: target player
+]]
+function handleTime(player: Player)
+
 	--Needs to change time format to 0:00. ex) 30s => 0:30; 90s => 1:30
 	local reformattedTime
-	
+
 	--Copies the value of the player's current stage for setting best score
 	--local oldStage = player['Current Stage'].Value
 	local oldStage = player.leaderstats:WaitForChild('Stage').Value
@@ -46,8 +57,16 @@ ServerStorage:FindFirstChild('Handle Time').Event:Connect(function(player: Playe
 	--print('Timer has started')
 	while true do
 
-		--Cannot record time if the player dies (Timer suspended)
-		if player.Character:FindFirstChild('Humanoid').Health == 0 then 
+		local char = player.Character 
+
+		--Cannot continue timer if player has left the game
+		if not char then 
+			print('Timer suspended because '..player.Name..' left the game')
+			return 
+		end
+
+		--Cannot cpntinue timer if the player dies (Timer suspended)
+		if char:FindFirstChild('Humanoid').Health == 0 then 
 			player['Elapsed Time'].Value = 0
 			--print('Timer suspended due to '..player.Name.."'s death")
 			return 
@@ -57,7 +76,7 @@ ServerStorage:FindFirstChild('Handle Time').Event:Connect(function(player: Playe
 
 		--Timer should not increase after the player is finished with the obby
 		if not player['Is Performing Obby'].Value then break end
-	
+
 		--Updates time here
 		player['Elapsed Time'].Value += 1
 		--print('Time: '..tostring(player['Elapsed Time'].Value)..'s')
@@ -66,7 +85,7 @@ ServerStorage:FindFirstChild('Handle Time').Event:Connect(function(player: Playe
 		DisplayNewElapsedTime:FireClient(player, reformattedTime)
 	end
 	print('Timer has ended')
-	
+
 
 	--Records best time on the Stages UI
 	if recordBestTime(player, oldStage, player['Elapsed Time'].Value) then 
@@ -76,4 +95,36 @@ ServerStorage:FindFirstChild('Handle Time').Event:Connect(function(player: Playe
 	--Resets time 
 	player['Elapsed Time'].Value = 0
 	DisplayNewElapsedTime:FireClient(player, '0:00')
-end)
+end
+
+
+HandleTime.Event:Connect(handleTime)
+
+
+
+--Starts player's timer as soon as they cross the start line
+StartTime.OnInvoke = function(player: Player)
+	if not player['Is Performing Obby'].Value and player['Elapsed Time'].Value == 0 then 
+		player['Is Performing Obby'].Value = true
+		ReplicatedStorage:FindFirstChild('Auto Close Stage UI'):InvokeClient(player)
+		HandleTime:Fire(player)
+		print(player.Name..' has started the obby')
+	else
+		print('Unable to start timer')
+	end
+end
+
+
+
+--Ends player's timer and teleports them to the next stage
+EndTime.OnInvoke = function(player: Player, NextStage: number)
+	if player['Is Performing Obby'].Value then
+		--Ends timer
+		player['Is Performing Obby'].Value = false
+		--Sets true if the player beats this stage the first time
+		player['Stages'][player.leaderstats:WaitForChild('Stage').Value]['Has Finished This Stage'].Value = true
+		--Teleports player to the next stage
+		ServerStorage:FindFirstChild('Teleport Player to Stage'):Fire(nil, player.Character, workspace:FindFirstChild(tostring(NextStage)))
+		print(player.Name..' has finished the stage and will be teleported to Stage '..NextStage)
+	end
+end

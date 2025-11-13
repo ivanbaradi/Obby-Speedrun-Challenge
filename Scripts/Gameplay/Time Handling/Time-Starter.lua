@@ -29,21 +29,8 @@ StageNumber.Touched:Connect(function(part: Part)
 		return
 	end
 	
-	--Gets player
-	local player = game.Players:GetPlayerFromCharacter(character)
-	
-	--Starts timer
-	if not player['Is Performing Obby'].Value and player['Elapsed Time'].Value == 0 then 
-		player['Is Performing Obby'].Value = true
-		--Tells the Stage UI to automatically close itself (See 'Open-StageUI_CLIENT' file)
-		ReplicatedStorage:FindFirstChild('Auto Close Stage UI'):InvokeClient(player)
-		--Tells the 'Time Handler' Script to start time
-		ServerStorage:FindFirstChild('Handle Time'):Fire(player)
-		print(player.Name..' has started the obby')
-		
-	else
-		print('Unable to start timer')
-	end
+	--Tells another script to start player's timer
+	ServerStorage:FindFirstChild('Start Time'):Invoke(game.Players:GetPlayerFromCharacter(character))
 	
 	debounce = false
 end)
